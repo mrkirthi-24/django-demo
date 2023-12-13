@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>{% block title %}My Webpage{% endblock %}</title>
+  </head>
+  <body>
+    <ul id="navigation">
+      {% for item in navigation %}
+      <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+      {% endfor %}
+    </ul>
+
+    <div>{% block content %} My base {% endblock %}</div>
+  </body>
+</html>
