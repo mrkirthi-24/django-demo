@@ -1,3 +1,5 @@
+#all the routes are defined here
+
 from django.urls import path
 from . import views
 

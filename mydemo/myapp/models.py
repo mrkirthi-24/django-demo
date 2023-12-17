@@ -1,3 +1,5 @@
+#models in django are tables in database
+
 from django.db import models
 from django.contrib.auth.models import User
 
