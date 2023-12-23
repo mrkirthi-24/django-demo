@@ -45,6 +45,7 @@ def todos(request):
 
 
 @login_required(login_url="/login")
+#if user has no permission then raise error excep
 @permission_required("myapp.add_post", login_url="/login", raise_exception=True)
 def create_post(request):
     if request.method == "POST":

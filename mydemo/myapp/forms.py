@@ -3,10 +3,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Post
 
-# Registrationform is extending Usercreationform which is a default form for creating users provided by django
+# Registrationform is extending Usercreationform which 
+# is a default form for creating users provided by django
 class RegisterForm(UserCreationForm): 
     email = forms.EmailField(required=True)
-
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]

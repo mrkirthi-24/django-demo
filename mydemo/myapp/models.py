@@ -18,3 +18,12 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title + "\n" + self.description
+    
+class Company(models.Model):
+    name = models.CharField(max_length=50)
+    location = models.CharField(max_length=100)
+    about = models.TextField()
+    type = models.CharField(max_length=50, choices = (('IT', 'IT'), ('Non-IT', 'Non-IT')))
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    activity_status = models.BooleanField(default=True)
