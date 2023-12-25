@@ -4,11 +4,14 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User, Group
 from django.shortcuts import redirect, render
-from .models import TodoItem, Post
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from .serializers import CompanySerializer, EmployeeSerializer
+from .models import TodoItem, Post, Company, Employee
 from .forms import PostForm, RegisterForm
+from rest_framework import viewsets
 
 # Create your views here.
-
 @login_required(login_url="/login")
 def home(request):
     posts = Post.objects.all()
@@ -70,4 +73,26 @@ def signup(request):
     else:
         form = RegisterForm()
 
-    return render(request, "registration/signup.html", {"form": form}) 
+    return render(request, "registration/signup.html", {"form": form})
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+
+    # this function will return all employees
+    #of particular company by pk (primary key)
+    # on companies/1/employees/ API/route/
+    @action(detail=True, methods=['GET'])
+    def employees(self, request, pk=None):
+        try:
+            company = Company.objects.get(pk=pk)
+            emp = Employee.objects.filter(company=company)
+            emp_serializer = EmployeeSerializer(emp, many=True, context={'request':request})
+            return Response(emp_serializer.data)
+        except:
+            return Response({"message": "Invalid company pkey"})
+
+
+class EmployeeViewSet(viewsets.ModelViewSet):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
